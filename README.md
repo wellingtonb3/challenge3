@@ -1,105 +1,129 @@
 # challenge3
 Challenge 3 - Alura Oracle One
 
+# **📌 Desafio — Previsão de Churn**
 
-O propósito da análise realizada, destacando o objetivo principal: prever o churn de clientes com base em variáveis relevantes.
+## **🎯 Propósito da Análise**
 
-Estrutura do projeto e organização dos arquivos, como o notebook principal, os dados tratados em CSV e qualquer pasta de visualizações.
+O objetivo principal deste projeto é **prever a evasão de clientes (churn)** em uma empresa de serviços, utilizando dados históricos de clientes.
+A análise buscou:
 
-Descrição do processo de preparação dos dados, incluindo:
-
-Classificação das variáveis em categóricas e numéricas.
-
-Etapas de normalização ou codificação.
-
-Separação dos dados em conjuntos de treino e teste.
-
-Justificativas para as escolhas feitas durante a modelagem.
-
-Exemplos de gráficos e insights obtidos durante a análise exploratória de dados (EDA).
-
-Instruções para executar o notebook, incluindo quais bibliotecas precisam ser instaladas e como carregar os dados tratados.
-
-Perfeito, Wally 👌
-Aqui está a separação dos **passos em blocos**, já estruturada para você visualizar o fluxo completo:
+* Identificar variáveis mais relevantes que influenciam o cancelamento.
+* Treinar e avaliar modelos preditivos para classificar clientes em risco.
+* Propor **estratégias de retenção** baseadas nos insights obtidos.
 
 ---
 
-## **📊 PREPARAÇÃO DOS DADOS**
+# **📊 PREPARAÇÃO DOS DADOS**
 
 **1 - Extração do Arquivo Tratado**
 
-* Carregar o dataset já limpo (ex.: `dados_tratados.csv`).
+* Leitura do dataset tratado (`dados_tratados.csv`).
+* Remoção de linhas nulas em `Cancelou`.
 
 **2 - Remoção de Colunas Irrelevantes**
 
-* Ex.: IDs que não têm impacto na previsão.
+* Exclusão de colunas como `ID_Cliente` (não influenciam na previsão).
 
-**3 - Encoding**
+**3 - Encoding (Transformação de variáveis categóricas)**
 
-* Transformar variáveis categóricas em numéricas (`OneHotEncoder` ou `get_dummies`).
+* Variável alvo (`Cancelou`) transformada em binária (Sim/Não → 1/0).
+* Variáveis categóricas transformadas com `get_dummies`.
 
 **4 - Verificação da Proporção de Evasão**
 
-* Analisar a distribuição da variável alvo (`Cancelou`).
+* Visualização da distribuição de clientes que cancelaram x não cancelaram.
 
-**5 - Balanceamento de Classes (opcional)**
+**5 - Balanceamento de Classes**
 
-* Usar técnicas como **SMOTE** ou **undersampling** se a classe estiver desbalanceada.
+* Aplicação do **SMOTE** para equilibrar as classes.
 
-**6 - Normalização ou Padronização (se necessário)**
+**6 - Normalização / Padronização**
 
-* Ex.: `StandardScaler` para padronizar variáveis numéricas.
+* Uso de `StandardScaler` para padronizar variáveis numéricas.
 
 ---
 
-## **🔎 CORRELAÇÃO E SELEÇÃO DE VARIÁVEIS**
+# **🔎 CORRELAÇÃO E SELEÇÃO DE VARIÁVEIS**
 
 **7 - Análise de Correlação**
 
-* Calcular correlação das features com o target.
-* Definir limiar de seleção (ex.: `|r| > 0.1`).
+* Cálculo da matriz de correlação.
+* Identificação de variáveis mais relacionadas ao `Cancelou`.
 
 **8 - Análises Direcionadas**
 
-* Selecionar variáveis relevantes com base na análise estatística e no conhecimento de negócio.
+* Cancelamento por:
+
+  * Tipo de contrato
+  * Método de pagamento
+  * Tempo de permanência
+  * Idosos
 
 ---
 
-## **🤖 MODELAGEM PREDITIVA**
+# **🤖 MODELAGEM PREDITIVA**
 
 **9 - Separação de Dados**
 
-* Dividir em treino e teste (`train_test_split`).
+* Divisão em treino (70%) e teste (30%), mantendo balanceamento.
 
 **10 - Criação de Modelos**
 
-* Treinar diferentes algoritmos:
+* Treinados:
 
-  * Regressão Logística
-  * KNN
-  * Árvore de Decisão
-  * Random Forest
+  * **Regressão Logística**
+  * **Random Forest**
+  * **Gradient Boosting**
 
 **11 - Avaliação dos Modelos**
 
-* Métricas: **Acurácia, Precisão, Recall, F1-score, Matriz de Confusão**.
+* Métricas:
+
+  * **Precisão, Recall, F1-score**
+  * **AUC (ROC)**
+  * **Matriz de confusão e Curva ROC**
 
 ---
 
-## **📌 INTERPRETAÇÃO E CONCLUSÕES**
+# **📌 INTERPRETAÇÃO E CONCLUSÕES**
 
 **12 - Análise de Importância das Variáveis**
 
-* Identificar quais features têm maior peso nos modelos (ex.: `feature_importances_` da Random Forest).
+* Avaliação com `feature_importances_` (RF, GB), coeficientes (LR) e **Permutation Importance**.
+* Variáveis mais relevantes:
+
+  * **Tipo\_Contrato** (month-to-month → risco muito maior)
+  * **Meses\_Permanencia** (clientes novos cancelam mais)
+  * **Cobranca\_Mensal** (valores altos aumentam evasão)
+  * **Metodo\_Pagamento** (pagamentos manuais = maior churn)
+  * **Serviços adicionais** (Suporte Técnico, Segurança Online, Streaming).
 
 **13 - Conclusão Estratégica**
 
-* Relatório final:
+📌 **Principais insights:**
 
-  * Destacar **principais fatores que influenciam a evasão**.
-  * Comparar desempenho dos modelos.
-  * Definir **estratégias de retenção** (ex.: clientes de alto risco recebem ofertas personalizadas, revisão de preços, programas de fidelidade).
+1. Contrato mensal aumenta risco de churn.
+2. Clientes recentes (baixo tempo de permanência) são mais vulneráveis.
+3. Cobranças altas sem valor agregado elevam evasão.
+4. Métodos de pagamento manuais têm maior risco.
+5. Experiência em suporte técnico e serviços extras influenciam retenção.
 
----
+🎯 **Estratégias de retenção sugeridas:**
 
+* Incentivar contratos anuais/semestrais.
+* Onboarding ativo nos primeiros meses.
+* Ofertas mais acessíveis ou pacotes flexíveis.
+* Incentivo ao débito automático.
+* Melhorar suporte e oferecer benefícios digitais temporários.
+
+📈 **Ações práticas:**
+
+* Criar segmentação de risco (alto/médio/baixo).
+* Testar campanhas A/B para ofertas.
+* Monitoramento proativo de clientes em risco.
+* Acompanhar KPIs: churn, adesão às ofertas, LTV e custo de retenção.
+
+✅ **Resumo final:**
+A evasão é mais influenciada por **contrato, permanência, valor da cobrança, forma de pagamento e serviços adicionais**.
+Aplicar estratégias direcionadas nesses pontos pode reduzir churn e aumentar o faturamento recorrente.
