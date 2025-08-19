@@ -103,5 +103,3 @@ Aqui está a separação dos **passos em blocos**, já estruturada para você vi
 
 ---
 
-👉 Quer que eu **compare seu código** com esses 13 passos e marque onde já está coberto e onde faltaria complementar?
-
